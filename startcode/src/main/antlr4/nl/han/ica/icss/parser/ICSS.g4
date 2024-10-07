@@ -41,9 +41,14 @@ MIN: '-';
 MUL: '*';
 ASSIGNMENT_OPERATOR: ':=';
 
-
-
-
 //--- PARSER: ---
-stylesheet: EOF;
+stylesheet: (assignment | function)+;
 
+assignment: (LOWER_IDENT | CAPITAL_IDENT) ASSIGNMENT_OPERATOR value SEMICOLON;
+value: TRUE | FALSE | PIXELSIZE | PERCENTAGE | SCALAR;
+
+function: (LOWER_IDENT | CAPITAL_IDENT) OPEN_BRACE body CLOSE_BRACE;
+body: (conditon | variable)+;
+conditon: IF BOX_BRACKET_OPEN (LOWER_IDENT | CAPITAL_IDENT) BOX_BRACKET_CLOSE OPEN_BRACE assignment+ CLOSE_BRACE (else)*;
+else: ELSE OPEN_BRACE assignment+ CLOSE_BRACE;
+variable: (LOWER_IDENT | CAPITAL_IDENT) COLON (LOWER_IDENT | CAPITAL_IDENT) SEMICOLON;
