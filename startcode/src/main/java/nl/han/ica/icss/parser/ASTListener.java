@@ -4,6 +4,7 @@ import java.util.Stack;
 
 
 import nl.han.ica.datastructures.IHANStack;
+import nl.han.ica.gen.ICSSBaseListener;
 import nl.han.ica.icss.ast.*;
 import nl.han.ica.icss.ast.literals.*;
 import nl.han.ica.icss.ast.operations.AddOperation;
@@ -12,6 +13,7 @@ import nl.han.ica.icss.ast.operations.SubtractOperation;
 import nl.han.ica.icss.ast.selectors.ClassSelector;
 import nl.han.ica.icss.ast.selectors.IdSelector;
 import nl.han.ica.icss.ast.selectors.TagSelector;
+
 
 /**
  * This class extracts the ICSS Abstract Syntax Tree from the Antlr Parse tree.
@@ -29,6 +31,7 @@ public class ASTListener extends ICSSBaseListener {
 		//currentContainer = new HANStack<>();
 	}
     public AST getAST() {
+
         return ast;
     }
     
