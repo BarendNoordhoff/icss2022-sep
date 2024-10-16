@@ -6,16 +6,12 @@ import nl.han.ica.icss.ast.types.ExpressionType;
 
 import java.util.HashMap;
 
-
-
 public class Checker {
 
     private IHANLinkedList<HashMap<String, ExpressionType>> variableTypes;
 
     public void check(AST ast) {
         // variableTypes = new HANLinkedList<>();
-
+        ast.root.getChildren().get(0).setError("looool");
     }
-
-    
 }

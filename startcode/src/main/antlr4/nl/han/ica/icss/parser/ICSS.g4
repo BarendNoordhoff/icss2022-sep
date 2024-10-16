@@ -42,14 +42,22 @@ MUL: '*';
 ASSIGNMENT_OPERATOR: ':=';
 
 //--- PARSER: ---
-stylesheet: (assignment | function)+;
+stylesheet: (variable_assignment | stylerule)+;
 
-assignment: string ASSIGNMENT_OPERATOR value SEMICOLON;
-value: TRUE | FALSE | PIXELSIZE | PERCENTAGE | SCALAR;
-string: (LOWER_IDENT | CAPITAL_IDENT);
+variable: (LOWER_IDENT | CAPITAL_IDENT);
+variable_value: (COLOR | TRUE | FALSE | PIXELSIZE | PERCENTAGE | SCALAR | variable);
+tag_selector: (LOWER_IDENT | CAPITAL_IDENT | ID_IDENT | CLASS_IDENT) ;
+operator: (PLUS | MIN | MUL);
 
-function: string OPEN_BRACE body* CLOSE_BRACE;
-body: (conditon | property)+;
-conditon: IF BOX_BRACKET_OPEN string BOX_BRACKET_CLOSE OPEN_BRACE assignment+ CLOSE_BRACE (else)*;
-else: ELSE OPEN_BRACE assignment+ CLOSE_BRACE;
-property: string COLON (string | value) SEMICOLON;
+variable_assignment: variable ASSIGNMENT_OPERATOR variable_value (operator variable_value)* SEMICOLON;
+element: (LOWER_IDENT | CAPITAL_IDENT);
+element_assignment: element COLON (variable_value | equation)* SEMICOLON;
+
+stylerule: tag_selector OPEN_BRACE body CLOSE_BRACE;
+
+body: (element_assignment | if_statement | equation)+;
+equation: addition;
+addition: multiply | variable_value (PLUS (multiply | variable_value))*;
+multiply: variable_value MUL variable_value;
+if_statement: IF BOX_BRACKET_OPEN variable BOX_BRACKET_CLOSE OPEN_BRACE body CLOSE_BRACE else_statement*;
+else_statement: ELSE OPEN_BRACE body CLOSE_BRACE;

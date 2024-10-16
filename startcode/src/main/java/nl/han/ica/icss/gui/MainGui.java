@@ -194,6 +194,7 @@ public class MainGui extends Application {
     private void parse() {
         clear();
         feedbackPane.addLine("Parsing...");
+        System.out.println(inputPane.getText());
         pipeline.parseString(inputPane.getText());
         for(String e : pipeline.getErrors()) {
             feedbackPane.addLine(e);
