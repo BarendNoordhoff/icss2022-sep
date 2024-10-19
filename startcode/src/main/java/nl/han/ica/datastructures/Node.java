@@ -1,8 +1,8 @@
 package nl.han.ica.datastructures;
 
 public class Node<T> {
-    T value;
-    Node<T> next;
+    public T value;
+    public Node<T> next;
 
     Node(T value) {
         this.value = value;

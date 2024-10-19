@@ -1,6 +1,8 @@
 package nl.han.ica.datastructures;
 
-public interface IHANLinkedList<T> {
+import java.util.Iterator;
+
+public interface IHANLinkedList<T> extends Iterable<T>  {
     /**
      * Adds value to the front of the list
      * @param value generic value to be added

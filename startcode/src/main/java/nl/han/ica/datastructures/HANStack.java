@@ -9,22 +9,18 @@ public class HANStack<T> implements IHANStack<T> {
 
     @Override
     public void push(T value) {
-        if (stack.getSize() > 0) {
-            stack.insert(stack.getSize() - 1, value);
-        } else {
-            stack.addFirst(value);
-        }
+        stack.addFirst(value);
     }
 
     @Override
     public T pop() {
-        T val = stack.get(stack.getSize() - 1);
-        stack.delete(stack.getSize() - 1);
+        T val = stack.getFirst();
+        stack.delete(0);
         return val;
     }
 
     @Override
     public T peek() {
-        return stack.get(stack.getSize() - 1);
+        return stack.getFirst();
     }
 }

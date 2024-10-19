@@ -3,7 +3,7 @@ package nl.han.ica.datastructures;
 import java.util.Iterator;
 
 public class HANLinkedList<T> implements IHANLinkedList<T> {
-    Node<T> header;
+    public Node<T> header;
     int size;
 
     public HANLinkedList() {
@@ -13,7 +13,9 @@ public class HANLinkedList<T> implements IHANLinkedList<T> {
 
     @Override
     public void addFirst(T value) {
-        header = new Node<T>(value);
+        Node<T> newNode = new Node<T>(value);
+        newNode.next = header.next;
+        header.next = newNode;
         size++;
     }
 
@@ -77,5 +79,10 @@ public class HANLinkedList<T> implements IHANLinkedList<T> {
     @Override
     public int getSize() {
         return size;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new HANIterator<>(header);
     }
 }
