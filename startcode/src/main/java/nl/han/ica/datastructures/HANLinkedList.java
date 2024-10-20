@@ -13,7 +13,7 @@ public class HANLinkedList<T> implements IHANLinkedList<T> {
 
     @Override
     public void addFirst(T value) {
-        Node<T> newNode = new Node<T>(value);
+        Node<T> newNode = new Node<>(value);
         newNode.next = header.next;
         header.next = newNode;
         size++;
@@ -63,7 +63,7 @@ public class HANLinkedList<T> implements IHANLinkedList<T> {
             current = current.next;
         }
 
-        return current.value;
+        return current.next.value;
     }
 
     @Override

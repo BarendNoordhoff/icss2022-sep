@@ -6,6 +6,8 @@ import nl.han.ica.datastructures.VariableManager;
 import nl.han.ica.icss.ast.*;
 import nl.han.ica.icss.ast.literals.*;
 import nl.han.ica.icss.ast.operations.AddOperation;
+import nl.han.ica.icss.ast.operations.MultiplyOperation;
+import nl.han.ica.icss.ast.operations.SubtractOperation;
 import nl.han.ica.icss.ast.types.ExpressionType;
 
 import java.util.HashMap;
@@ -18,6 +20,7 @@ public class Checker {
     public void check(AST ast) {
         variableTypes = new HANLinkedList<>();
         variableManager.setVariableTypes(variableTypes);
+        variableManager.add();
 
         for (ASTNode child : ast.root.getChildren()) {
             if (child instanceof VariableAssignment)
@@ -25,20 +28,20 @@ public class Checker {
             else if (child instanceof Stylerule)
                 checkStylerule(child);
         }
+
+        variableManager.delete();
     }
 
     public void checkStylerule(ASTNode astNode) {
         Stylerule stylerule = (Stylerule) astNode;
-        for (ASTNode dec : stylerule.body) {
-            if (dec instanceof Declaration)
-                checkDeclaration((Declaration) dec);
-            else if (dec instanceof IfClause)
-                checkIfClause((IfClause) dec);
+        for (ASTNode child : stylerule.body) {
+            if (child instanceof Declaration)
+                checkDeclaration((Declaration) child);
+            else if (child instanceof IfClause)
+                checkIfStatement((IfClause) child);
+            else if (child instanceof VariableAssignment)
+                checkVariableAssignment(child);
         }
-    }
-
-    public void checkIfClause(IfClause astNode) {
-        variableManager.add(new HashMap<>());
     }
 
     public void checkDeclaration(Declaration declaration) {
@@ -70,9 +73,32 @@ public class Checker {
         }
     }
 
+    void checkIfStatement(IfClause clause) {
+        ExpressionType expressionType = getExpression(clause.conditionalExpression);
+
+        if (expressionType != ExpressionType.BOOL) {
+            clause.setError(clause.conditionalExpression.getNodeLabel() + "Cannot be used as a condition");
+        }
+
+        variableManager.add();
+
+        for (ASTNode child : clause.body) {
+            if (child instanceof Declaration)
+                checkDeclaration((Declaration) child);
+            else if (child instanceof IfClause)
+                checkIfStatement((IfClause) child);
+            else if (child instanceof VariableAssignment)
+                checkVariableAssignment(child);
+        }
+
+        variableManager.delete();
+    }
+
     public ExpressionType getExpression(ASTNode astNode) {
         if (astNode instanceof VariableReference) {
             return getExpressionFromVariable((VariableReference) astNode);
+        } else if (astNode instanceof Operation) {
+            return getExpressionFromOperation((Operation) astNode);
         } else {
             if (astNode instanceof BoolLiteral) {
                 return ExpressionType.BOOL;
@@ -88,6 +114,45 @@ public class Checker {
         }
 
         return ExpressionType.UNDEFINED;
+    }
+
+    ExpressionType getExpressionFromOperation(Operation operator) {
+        ExpressionType left;
+        ExpressionType right;
+
+        Expression exprLeft = operator.lhs;
+        Expression exprRight = operator.rhs;
+
+        if ((operator.lhs instanceof Operation)) {
+            left = getExpressionFromOperation((Operation) operator.lhs);
+        } else {
+            left = getExpression(exprLeft);
+        }
+
+        if ((operator.rhs instanceof Operation)) {
+            right = getExpressionFromOperation((Operation) operator.rhs);
+        } else {
+            right = getExpression(exprRight);
+        }
+
+        if (left == ExpressionType.BOOL || left == ExpressionType.COLOR || right == ExpressionType.BOOL || right == ExpressionType.COLOR) {
+            operator.setError("bool's and colors arent allowed in operations");
+            return ExpressionType.UNDEFINED;
+        }
+
+        if (operator instanceof MultiplyOperation) {
+            if (left != ExpressionType.SCALAR && right != ExpressionType.SCALAR) {
+                operator.setError("in an multiplication operation either of the sides need to be a scalar");
+                return ExpressionType.UNDEFINED;
+            } else {
+                return left == ExpressionType.SCALAR ? right : left;
+            }
+        } else if ((operator instanceof AddOperation || operator instanceof SubtractOperation) && left != right) {
+            operator.setError("in a addition or subtraction operation both of the sides need to be of the same type");
+            return ExpressionType.UNDEFINED;
+        }
+
+        return left;
     }
 
     ExpressionType getExpressionFromVariable(VariableReference variableReference) {
@@ -118,7 +183,7 @@ public class Checker {
         }
 
 //        There are no errors store the variable
-        variableTypes.insert(variableTypes.getSize(), newVariable);
+        variableManager.addValue(var.name.name, expressionValue);
     }
 
     boolean checkIfVariableExistsWithOtherType(HashMap<String, ExpressionType> var) {

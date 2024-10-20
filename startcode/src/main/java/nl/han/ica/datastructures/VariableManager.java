@@ -23,11 +23,15 @@ public class VariableManager<T,A> {
         return null;
     }
 
-    public void add(HashMap<T,A> newScope) {
-        variableTypes.addFirst(newScope);
+    public void add() {
+        variableTypes.addFirst(new HashMap<T,A>());
     }
 
     public void delete() {
         variableTypes.removeFirst();
+    }
+
+    public void addValue(T key, A variableType) {
+        variableTypes.get(0).put(key, variableType);
     }
 }
