@@ -7,6 +7,7 @@ import nl.han.ica.icss.ast.*;
 import nl.han.ica.icss.ast.literals.*;
 import nl.han.ica.icss.ast.operations.AddOperation;
 import nl.han.ica.icss.ast.operations.MultiplyOperation;
+import nl.han.ica.icss.ast.operations.SubtractOperation;
 import nl.han.ica.icss.ast.selectors.ClassSelector;
 import nl.han.ica.icss.ast.selectors.IdSelector;
 import nl.han.ica.icss.ast.selectors.TagSelector;
@@ -201,6 +202,19 @@ public class ASTListener extends ICSSBaseListener {
 		MultiplyOperation multiplyOperation = (MultiplyOperation) currentContainer.pop();
 		currentContainer.peek().addChild(multiplyOperation);
 	}
+
+	@Override
+	public void enterSubtraction(ICSSParser.SubtractionContext ctx) {
+		SubtractOperation subtractOperation = new SubtractOperation();
+		currentContainer.push(subtractOperation);
+	}
+
+	@Override
+	public void exitSubtraction(ICSSParser.SubtractionContext ctx){
+		SubtractOperation subtractOperation = (SubtractOperation) currentContainer.pop();
+		currentContainer.peek().addChild(subtractOperation);
+	}
+
 
 	@Override
 	public void enterIf_statement(ICSSParser.If_statementContext ctx) {

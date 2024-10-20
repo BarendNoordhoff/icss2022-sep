@@ -33,6 +33,7 @@ public class Checker {
     }
 
     public void checkStylerule(ASTNode astNode) {
+        variableManager.add();
         Stylerule stylerule = (Stylerule) astNode;
         for (ASTNode child : stylerule.body) {
             if (child instanceof Declaration)
@@ -42,6 +43,7 @@ public class Checker {
             else if (child instanceof VariableAssignment)
                 checkVariableAssignment(child);
         }
+        variableManager.delete();
     }
 
     public void checkDeclaration(Declaration declaration) {

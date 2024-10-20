@@ -55,9 +55,10 @@ element_assignment: element COLON (variable_value | equation)* SEMICOLON;
 
 stylerule: tag_selector OPEN_BRACE body CLOSE_BRACE;
 
-body: (element_assignment | if_statement | equation)+;
-equation: addition;
+body: (element_assignment | if_statement | equation | variable_assignment)+;
+equation: addition | subtraction;
 addition: multiply | variable_value (PLUS (multiply | variable_value))*;
+subtraction: multiply | variable_value (MIN (multiply | variable_value))*;
 multiply: variable_value MUL variable_value;
 if_statement: IF BOX_BRACKET_OPEN variable BOX_BRACKET_CLOSE OPEN_BRACE body CLOSE_BRACE else_statement*;
 else_statement: ELSE OPEN_BRACE body CLOSE_BRACE;
