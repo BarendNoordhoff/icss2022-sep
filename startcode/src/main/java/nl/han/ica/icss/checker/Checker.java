@@ -180,28 +180,11 @@ public class Checker {
             astNode.setError("Variable " + var.name + " needs a value!");
         }
 
-        if (!checkIfVariableExistsWithOtherType(newVariable)) {
+        if (variableManager.get(var.name.name) != null && variableManager.get(var.name.name) != expressionValue) {
             astNode.setError("We recognize the variable " + var.name.name + " but it is not of type " + expressionValue);
         }
 
 //        There are no errors store the variable
         variableManager.addValue(var.name.name, expressionValue);
-    }
-
-    boolean checkIfVariableExistsWithOtherType(HashMap<String, ExpressionType> var) {
-        for (String key : var.keySet()) {
-            ExpressionType expectedExpression = var.get(key);
-
-            for (int i = 0; i < variableTypes.getSize(); i++) {
-                if (variableTypes.get(i) != null) {
-                    if (variableTypes.get(i).containsKey(key)) {
-                        if (variableTypes.get(i).get(key).equals(expectedExpression)) {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-        return true;
     }
 }
