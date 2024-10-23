@@ -75,7 +75,10 @@ public class Generator {
 		}
 
 		for (ASTNode child : stylerule.body) {
-			sr += "\t" + generateDeclaration((Declaration) child);
+			if (child instanceof IfClause)
+				child.setError("it seems you forgot to transform the tree before generating");
+			else if (child instanceof Declaration)
+				sr += "\t" + generateDeclaration((Declaration) child);
 		}
 
 //		two line separators to make sure there is some space between classes.

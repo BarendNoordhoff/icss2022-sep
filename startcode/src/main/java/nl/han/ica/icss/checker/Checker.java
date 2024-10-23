@@ -178,10 +178,12 @@ public class Checker {
 
         if (expressionValue == ExpressionType.UNDEFINED) {
             astNode.setError("Variable " + var.name + " needs a value!");
+            return;
         }
 
         if (variableManager.get(var.name.name) != null && variableManager.get(var.name.name) != expressionValue) {
             astNode.setError("We recognize the variable " + var.name.name + " but it is not of type " + expressionValue);
+            return;
         }
 
 //        There are no errors store the variable
