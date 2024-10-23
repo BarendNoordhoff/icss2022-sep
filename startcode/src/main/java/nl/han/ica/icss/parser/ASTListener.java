@@ -37,7 +37,6 @@ public class ASTListener extends ICSSBaseListener {
 	@Override
 	public void exitStylesheet(ICSSParser.StylesheetContext ctx) {
 		ast.setRoot((Stylesheet) currentContainer.pop());
-		System.out.println(ast.root);
 	}
 
 	@Override

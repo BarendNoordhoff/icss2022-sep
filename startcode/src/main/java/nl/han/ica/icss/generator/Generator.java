@@ -27,7 +27,6 @@ public class Generator {
 				css += generateStylerule((Stylerule) child);
 		}
 
-		System.out.println(variableValues.toString());
         return css;
 	}
 
@@ -36,6 +35,7 @@ public class Generator {
 		Expression expression = variableAssignment.expression;
 		ExpressionType expressionType = ExpressionType.UNDEFINED;
 
+//		checks what kind of literal it is and then stores the expression type and value of the assignment.
 		if (expression instanceof ColorLiteral) {
 			value = ((ColorLiteral) expression).value;
 			expressionType = ExpressionType.COLOR;
@@ -53,26 +53,36 @@ public class Generator {
 			expressionType = ExpressionType.BOOL;
 		}
 
+//		get the variable name.
 		String id = variableAssignment.name.name;
 
+//		Store the variable typen and expression.
 		variableValues.put(id, value);
 		variableType.put(id, expressionType);
 	}
 
 	String generateStylerule(Stylerule stylerule) {
 		String sr = "";
-		for (Selector selector : stylerule.selectors) {
+
+
+		for (int i = 0; i < stylerule.selectors.size(); i++) {
 			String tag = "";
 
-			if (selector instanceof IdSelector)
-				tag = ((IdSelector) selector).id;
-			else if (selector instanceof ClassSelector)
-				tag = ((ClassSelector) selector).cls;
+			if (stylerule.selectors.get(i) instanceof IdSelector)
+				tag = ((IdSelector) stylerule.selectors.get(i)).id;
+			else if (stylerule.selectors.get(i) instanceof ClassSelector)
+				tag = ((ClassSelector) stylerule.selectors.get(i)).cls;
 			else
-				tag = ((TagSelector) selector).tag;
+				tag = ((TagSelector) stylerule.selectors.get(i)).tag;
 
-			sr += tag + " { " + System.lineSeparator();
+//			my grammar doesn't support it but just in case there are multiple selectors this makes sure that they are seperated
+//			with a comma, and that the selectors don't end with a comma.
+			sr += tag;
+			if (i == stylerule.selectors.size())
+				 sr += ", ";
 		}
+
+		sr += " { " + System.lineSeparator();
 
 		for (ASTNode child : stylerule.body) {
 			if (child instanceof IfClause)
@@ -81,16 +91,18 @@ public class Generator {
 				sr += "\t" + generateDeclaration((Declaration) child);
 		}
 
-//		two line separators to make sure there is some space between classes.
-//		makes the final result a bit more readable in my opinion;
+//		two line separators to make sure there is some space between style rules.
+//		makes the final result a bit more readable.
 		sr += " } " + System.lineSeparator() + System.lineSeparator();
 		return sr;
 	}
 
 	String generateDeclaration(Declaration declaration) {
+//		get the name of the property (width, height etc.).
 		String prop = declaration.property.name;
 		String expres = "";
 
+//		gets value of a literal and appends a suffix if necessary.
 		if (declaration.expression instanceof ColorLiteral) {
 			expres = ((ColorLiteral) declaration.expression).value;
 		} else if (declaration.expression instanceof PercentageLiteral) {
@@ -108,6 +120,8 @@ public class Generator {
 		return prop + ": " + expres + ";" + System.lineSeparator();
 	}
 
+//	uses the stored expression type of a given variable to see what the suffix should be in the generated CSS.
+//	Using this method pixels can be displayed with 'px' at the end and percentages with '%' at the end.
 	String getValueFromVariable(String key) {
 		String varValue = variableValues.get(key);
 		String varSuffix = "";
