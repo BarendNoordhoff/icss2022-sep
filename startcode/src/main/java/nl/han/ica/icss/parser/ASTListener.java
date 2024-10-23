@@ -180,13 +180,13 @@ public class ASTListener extends ICSSBaseListener {
 	}
 
 	@Override
-	public void enterEquation(ICSSParser.EquationContext ctx) {
+	public void enterAddition(ICSSParser.AdditionContext ctx) {
 		AddOperation addOperation = new AddOperation();
 		currentContainer.push(addOperation);
 	}
 
 	@Override
-	public void exitEquation(ICSSParser.EquationContext ctx) {
+	public void exitAddition(ICSSParser.AdditionContext ctx) {
 		AddOperation addOperation = (AddOperation) currentContainer.pop();
 		currentContainer.peek().addChild(addOperation);
 	}

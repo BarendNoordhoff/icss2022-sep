@@ -1,4 +1,4 @@
-package nl.han.ica.icss.parser;// Generated from C:/Users/baren/Documents/School/ASD/APP/ICSS/icss2022-sep/startcode/src/main/antlr4/nl/han/ica/icss/parser/ICSS.g4 by ANTLR 4.13.1
+package nl.han.ica.icss.parser;// Generated from C:/Users/baren/Documents/School/ASD/APP/ICSS/icss2022-sep/startcode/src/main/antlr4/nl/han/ica/icss/parser/ICSS.g4 by ANTLR 4.13.2
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -117,35 +117,53 @@ public interface ICSSListener extends ParseTreeListener {
 	 */
 	void exitEquation(ICSSParser.EquationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ICSSParser#addition}.
+	 * Enter a parse tree produced by the {@code var_val}
+	 * labeled alternative in {@link ICSSParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterAddition(ICSSParser.AdditionContext ctx);
+	void enterVar_val(ICSSParser.Var_valContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ICSSParser#addition}.
+	 * Exit a parse tree produced by the {@code var_val}
+	 * labeled alternative in {@link ICSSParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitAddition(ICSSParser.AdditionContext ctx);
+	void exitVar_val(ICSSParser.Var_valContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ICSSParser#subtraction}.
+	 * Enter a parse tree produced by the {@code subtraction}
+	 * labeled alternative in {@link ICSSParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterSubtraction(ICSSParser.SubtractionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ICSSParser#subtraction}.
+	 * Exit a parse tree produced by the {@code subtraction}
+	 * labeled alternative in {@link ICSSParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitSubtraction(ICSSParser.SubtractionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ICSSParser#multiply}.
+	 * Enter a parse tree produced by the {@code multiply}
+	 * labeled alternative in {@link ICSSParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterMultiply(ICSSParser.MultiplyContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ICSSParser#multiply}.
+	 * Exit a parse tree produced by the {@code multiply}
+	 * labeled alternative in {@link ICSSParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitMultiply(ICSSParser.MultiplyContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code addition}
+	 * labeled alternative in {@link ICSSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterAddition(ICSSParser.AdditionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code addition}
+	 * labeled alternative in {@link ICSSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAddition(ICSSParser.AdditionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ICSSParser#if_statement}.
 	 * @param ctx the parse tree

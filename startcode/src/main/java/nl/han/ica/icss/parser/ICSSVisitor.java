@@ -1,4 +1,4 @@
-package nl.han.ica.icss.parser;// Generated from C:/Users/baren/Documents/School/ASD/APP/ICSS/icss2022-sep/startcode/src/main/antlr4/nl/han/ica/icss/parser/ICSS.g4 by ANTLR 4.13.1
+package nl.han.ica.icss.parser;// Generated from C:/Users/baren/Documents/School/ASD/APP/ICSS/icss2022-sep/startcode/src/main/antlr4/nl/han/ica/icss/parser/ICSS.g4 by ANTLR 4.13.2
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -76,23 +76,33 @@ public interface ICSSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitEquation(ICSSParser.EquationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ICSSParser#addition}.
+	 * Visit a parse tree produced by the {@code var_val}
+	 * labeled alternative in {@link ICSSParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAddition(ICSSParser.AdditionContext ctx);
+	T visitVar_val(ICSSParser.Var_valContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ICSSParser#subtraction}.
+	 * Visit a parse tree produced by the {@code subtraction}
+	 * labeled alternative in {@link ICSSParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSubtraction(ICSSParser.SubtractionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ICSSParser#multiply}.
+	 * Visit a parse tree produced by the {@code multiply}
+	 * labeled alternative in {@link ICSSParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMultiply(ICSSParser.MultiplyContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code addition}
+	 * labeled alternative in {@link ICSSParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAddition(ICSSParser.AdditionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ICSSParser#if_statement}.
 	 * @param ctx the parse tree

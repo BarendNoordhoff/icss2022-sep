@@ -153,7 +153,7 @@ public class Checker {
             operator.setError("in a addition or subtraction operation both of the sides need to be of the same type");
             return ExpressionType.UNDEFINED;
         }
-
+        System.out.println(left + " : " + right);
         return left;
     }
 
