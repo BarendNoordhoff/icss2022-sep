@@ -1,7 +1,5 @@
 package nl.han.ica.datastructures;
 
-import nl.han.ica.icss.ast.types.ExpressionType;
-
 import java.util.HashMap;
 
 public class VariableManager<T,A> {
