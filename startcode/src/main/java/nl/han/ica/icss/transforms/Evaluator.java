@@ -27,6 +27,7 @@ public class Evaluator implements Transform {
         transformStylesheet(ast.root);
     }
 
+
     void transformStylesheet(ASTNode astNode) {
         variableManager.add();
 

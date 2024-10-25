@@ -4,10 +4,6 @@ import nl.han.ica.datastructures.HANLinkedList;
 import nl.han.ica.datastructures.IHANLinkedList;
 import nl.han.ica.datastructures.VariableManager;
 import nl.han.ica.icss.ast.*;
-import nl.han.ica.icss.ast.literals.*;
-import nl.han.ica.icss.ast.operations.AddOperation;
-import nl.han.ica.icss.ast.operations.MultiplyOperation;
-import nl.han.ica.icss.ast.operations.SubtractOperation;
 import nl.han.ica.icss.ast.types.ExpressionType;
 
 import java.util.HashMap;
@@ -125,12 +121,13 @@ public class Checker {
         ASTNode value = astNode.getChildren().get(1);
         ExpressionType expressionValue = expressionChecker.getExpression(value);
 
-//        put the variable in a variable (ironic)
+//        if the compiler returns expression value as a undefined the variable doesn't have a valid value, which isn't allowed.
         if (expressionValue == ExpressionType.UNDEFINED) {
             astNode.setError("Variable " + var.name + " needs a value!");
             return;
         }
 
+//        Makes it so that if a variable gets assigned with a different value, it will give an error.
         if (variableManager.get(var.name.name) != null && variableManager.get(var.name.name) != expressionValue) {
             astNode.setError("We recognize the variable " + var.name.name + " but it is not of type " + expressionValue);
             return;

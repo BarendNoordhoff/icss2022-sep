@@ -20,6 +20,8 @@ public class Generator {
 		variableType = new HashMap<>();
 
 		String css = "";
+
+//		goes trough the body of the AST tree.
 		for (ASTNode child : ast.root.getChildren()) {
 			if (child instanceof VariableAssignment)
 				saveVariable((VariableAssignment) child);
