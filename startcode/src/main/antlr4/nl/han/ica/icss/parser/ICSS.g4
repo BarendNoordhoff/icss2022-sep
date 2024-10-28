@@ -65,12 +65,5 @@ expression
     | variable_value #var_val
     ;
 
-//equation: subtraction | addition;
-//
-//subtraction: addition (MIN addition)+;
-//addition: (multiply | variable_value) (PLUS (multiply | variable_value))*;
-//
-//multiply: variable_value | equation MUL variable_value | equation;
-
 if_statement: IF BOX_BRACKET_OPEN variable BOX_BRACKET_CLOSE OPEN_BRACE body CLOSE_BRACE else_statement*;
 else_statement: ELSE OPEN_BRACE body CLOSE_BRACE;

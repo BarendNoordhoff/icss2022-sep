@@ -66,7 +66,7 @@ public class ExpressionChecker {
 
         if (operator instanceof MultiplyOperation) {
             if (left != ExpressionType.SCALAR && right != ExpressionType.SCALAR) {
-                operator.setError("in an multiplication operation either of the sides need to be a scalar");
+                operator.setError("in an multiplication operation one of the sides need to be a scalar");
                 return ExpressionType.UNDEFINED;
             } else {
                 return left == ExpressionType.SCALAR ? right : left;

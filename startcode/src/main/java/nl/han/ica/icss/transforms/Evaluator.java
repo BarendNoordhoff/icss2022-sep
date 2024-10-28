@@ -13,8 +13,9 @@ import java.util.HashMap;
 
 public class Evaluator implements Transform {
 
-    private IHANLinkedList<HashMap<String, Literal>> variableValues;
-    private VariableManager<String, Literal> variableManager;
+    IHANLinkedList<HashMap<String, Literal>> variableValues;
+    VariableManager<String, Literal> variableManager;
+    OperationsEvaluator operationsEvaluator;
 
     public Evaluator() {
     }
@@ -24,6 +25,7 @@ public class Evaluator implements Transform {
         variableValues = new HANLinkedList<>();
         variableManager = new VariableManager<>();
         variableManager.setVariableTypes(variableValues);
+        operationsEvaluator = new OperationsEvaluator(variableManager);
         transformStylesheet(ast.root);
     }
 
@@ -122,64 +124,6 @@ public class Evaluator implements Transform {
         Expression value = declaration.expression;
 
         if (value instanceof Operation)
-            declaration.expression = transformOperation((Operation) value);
-    }
-
-    Literal transformOperation(Operation operation) {
-        Literal left;
-        Literal right;
-
-        int leftValue = 0;
-        int rightValue = 0;
-
-        if (operation.lhs instanceof Operation) {
-            left = transformOperation((Operation) operation.lhs);
-        } else if (operation.lhs instanceof VariableReference) {
-            left = variableManager.get(((VariableReference) operation.lhs).name);
-        } else {
-            left = (Literal) operation.lhs;
-        }
-
-        if (operation.rhs instanceof Operation) {
-            right = transformOperation((Operation) operation.rhs);
-        } else if (operation.rhs instanceof VariableReference) {
-            right = variableManager.get(((VariableReference) operation.rhs).name);
-        } else {
-            right = (Literal) operation.rhs;
-        }
-
-        leftValue = extractValueFromLiteral(left);
-        rightValue = extractValueFromLiteral(right);
-
-        if (operation instanceof AddOperation) {
-            return returnLiteral(left, leftValue + rightValue);
-        } else if (operation instanceof SubtractOperation) {
-            return returnLiteral(left, leftValue - rightValue);
-        } else {
-            return
-                returnLiteral(left, leftValue * rightValue) instanceof ScalarLiteral
-                ? returnLiteral(right, leftValue * rightValue)
-                : returnLiteral(left, leftValue * rightValue);
-        }
-    }
-
-    int extractValueFromLiteral(Literal literal) {
-        if (literal instanceof PixelLiteral) {
-            return ((PixelLiteral) literal).value;
-        } else if (literal instanceof PercentageLiteral) {
-            return ((PercentageLiteral) literal).value;
-        } else {
-            return ((ScalarLiteral) literal).value;
-        }
-    }
-
-    Literal returnLiteral(Literal literal, int value) {
-        if (literal instanceof PixelLiteral) {
-            return new PixelLiteral(value);
-        } else if (literal instanceof PercentageLiteral) {
-            return new PercentageLiteral(value);
-        } else {
-            return new ScalarLiteral(value);
-        }
+            declaration.expression = operationsEvaluator.transformOperation((Operation) value);
     }
 }

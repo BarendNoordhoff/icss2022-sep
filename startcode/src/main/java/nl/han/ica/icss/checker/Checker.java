@@ -118,23 +118,27 @@ public class Checker {
 
     public void checkVariableAssignment(ASTNode astNode) {
         VariableAssignment var = (VariableAssignment) astNode;
+//        This gets the value of the variable assignment.
         ASTNode value = astNode.getChildren().get(1);
-        ExpressionType expressionValue = expressionChecker.getExpression(value);
+
+//        Get the expression and name from the variable.
+        ExpressionType variableExpression = expressionChecker.getExpression(value);
+        String variableName = var.name.name;
 
 //        if the compiler returns expression value as a undefined the variable doesn't have a valid value, which isn't allowed.
-        if (expressionValue == ExpressionType.UNDEFINED) {
+        if (variableExpression == ExpressionType.UNDEFINED) {
             astNode.setError("Variable " + var.name + " needs a value!");
             return;
         }
 
 //        Makes it so that if a variable gets assigned with a different value, it will give an error.
-        if (variableManager.get(var.name.name) != null && variableManager.get(var.name.name) != expressionValue) {
-            astNode.setError("We recognize the variable " + var.name.name + " but it is not of type " + expressionValue);
+        if (variableManager.get(variableName) != null && variableManager.get(variableName) != variableExpression) {
+            astNode.setError("We recognize the variable " + var.name.name + " but it is not of type " + variableExpression);
             return;
         }
 
 //        Store the variable in a variable (ironic).
-        variableManager.addValue(var.name.name, expressionValue);
+        variableManager.addValue(variableName, variableExpression);
     }
 
 }
