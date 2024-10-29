@@ -57,56 +57,6 @@ public interface ICSSListener extends ParseTreeListener {
 	 */
 	void exitOperator(ICSSParser.OperatorContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ICSSParser#variable_assignment}.
-	 * @param ctx the parse tree
-	 */
-	void enterVariable_assignment(ICSSParser.Variable_assignmentContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ICSSParser#variable_assignment}.
-	 * @param ctx the parse tree
-	 */
-	void exitVariable_assignment(ICSSParser.Variable_assignmentContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ICSSParser#element}.
-	 * @param ctx the parse tree
-	 */
-	void enterElement(ICSSParser.ElementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ICSSParser#element}.
-	 * @param ctx the parse tree
-	 */
-	void exitElement(ICSSParser.ElementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ICSSParser#element_assignment}.
-	 * @param ctx the parse tree
-	 */
-	void enterElement_assignment(ICSSParser.Element_assignmentContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ICSSParser#element_assignment}.
-	 * @param ctx the parse tree
-	 */
-	void exitElement_assignment(ICSSParser.Element_assignmentContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ICSSParser#stylerule}.
-	 * @param ctx the parse tree
-	 */
-	void enterStylerule(ICSSParser.StyleruleContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ICSSParser#stylerule}.
-	 * @param ctx the parse tree
-	 */
-	void exitStylerule(ICSSParser.StyleruleContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ICSSParser#body}.
-	 * @param ctx the parse tree
-	 */
-	void enterBody(ICSSParser.BodyContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ICSSParser#body}.
-	 * @param ctx the parse tree
-	 */
-	void exitBody(ICSSParser.BodyContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link ICSSParser#equation}.
 	 * @param ctx the parse tree
 	 */
@@ -164,6 +114,56 @@ public interface ICSSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAddition(ICSSParser.AdditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ICSSParser#variable_assignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariable_assignment(ICSSParser.Variable_assignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#variable_assignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariable_assignment(ICSSParser.Variable_assignmentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ICSSParser#element}.
+	 * @param ctx the parse tree
+	 */
+	void enterElement(ICSSParser.ElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#element}.
+	 * @param ctx the parse tree
+	 */
+	void exitElement(ICSSParser.ElementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ICSSParser#element_assignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterElement_assignment(ICSSParser.Element_assignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#element_assignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitElement_assignment(ICSSParser.Element_assignmentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ICSSParser#stylerule}.
+	 * @param ctx the parse tree
+	 */
+	void enterStylerule(ICSSParser.StyleruleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#stylerule}.
+	 * @param ctx the parse tree
+	 */
+	void exitStylerule(ICSSParser.StyleruleContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ICSSParser#body}.
+	 * @param ctx the parse tree
+	 */
+	void enterBody(ICSSParser.BodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#body}.
+	 * @param ctx the parse tree
+	 */
+	void exitBody(ICSSParser.BodyContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ICSSParser#if_statement}.
 	 * @param ctx the parse tree

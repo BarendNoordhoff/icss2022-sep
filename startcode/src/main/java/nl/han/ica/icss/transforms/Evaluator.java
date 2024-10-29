@@ -131,8 +131,11 @@ public class Evaluator implements Transform {
             literal = (ScalarLiteral) variableAssignment.expression;
         } else if (variableAssignment.expression instanceof BoolLiteral){
             literal = (BoolLiteral) variableAssignment.expression;
-        } else if (variableAssignment.expression instanceof ColorLiteral){
+        } else if (variableAssignment.expression instanceof ColorLiteral) {
             literal = (ColorLiteral) variableAssignment.expression;
+        } else if (variableAssignment.expression instanceof Operation){
+            literal = operationsEvaluator.transformOperation((Operation) variableAssignment.expression);
+            System.out.println(literal);
         } else {
             literal = variableManager.get(variableAssignment.name.name);
         }
@@ -148,6 +151,4 @@ public class Evaluator implements Transform {
         else if (value instanceof VariableReference)
             declaration.expression = variableManager.get(((VariableReference) value).name);
     }
-
-
 }

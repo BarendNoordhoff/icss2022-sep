@@ -42,22 +42,92 @@ MUL: '*';
 ASSIGNMENT_OPERATOR: ':=';
 
 //--- PARSER: ---
-stylesheet: (variable_assignment | stylerule)+;
 
-variable: (LOWER_IDENT | CAPITAL_IDENT);
-variable_value: (COLOR | TRUE | FALSE | PIXELSIZE | PERCENTAGE | SCALAR | variable);
-tag_selector: (LOWER_IDENT | CAPITAL_IDENT | ID_IDENT | CLASS_IDENT) ;
-operator: (PLUS | MIN | MUL);
+// stylesheet rules.
+stylesheet
+    :
+    (
+        variable_assignment
+        | stylerule
+    )+
+    ;
 
-variable_assignment: variable ASSIGNMENT_OPERATOR variable_value (operator variable_value)* SEMICOLON;
-element: (LOWER_IDENT | CAPITAL_IDENT);
-element_assignment: element COLON (variable_value | equation)* SEMICOLON;
+stylerule
+    :
+    tag_selector
+    OPEN_BRACE
+    body
+    CLOSE_BRACE
+    ;
 
-stylerule: tag_selector OPEN_BRACE body CLOSE_BRACE;
+tag_selector
+    :
+    (
+        LOWER_IDENT
+        | CAPITAL_IDENT
+        | ID_IDENT
+        | CLASS_IDENT
+    )
+    ;
 
-body: (element_assignment | if_statement | equation | variable_assignment)+;
+element
+    :
+    (
+        LOWER_IDENT
+        | CAPITAL_IDENT
+    )
+    ;
 
-equation: expression;
+element_assignment
+    :
+    element
+    COLON
+    (
+        variable_value
+        | equation
+    )*
+    SEMICOLON
+    ;
+
+// variable rules.
+variable
+    :
+    (
+        LOWER_IDENT
+        | CAPITAL_IDENT
+    )
+    ;
+
+variable_value
+    :
+    (
+        COLOR
+        | TRUE
+        | FALSE
+        | PIXELSIZE
+        | PERCENTAGE
+        | SCALAR
+        | variable
+    )
+    ;
+
+variable_assignment
+    :
+    variable
+    ASSIGNMENT_OPERATOR
+    (
+        variable_value
+        | equation
+    )*
+    SEMICOLON
+    ;
+
+//Equation rules.
+equation
+    :
+    expression
+    ;
+
 expression
     : expression MUL expression #multiply
     | expression MIN expression #subtraction
@@ -65,5 +135,35 @@ expression
     | variable_value #var_val
     ;
 
-if_statement: IF BOX_BRACKET_OPEN variable BOX_BRACKET_CLOSE OPEN_BRACE body CLOSE_BRACE else_statement*;
-else_statement: ELSE OPEN_BRACE body CLOSE_BRACE;
+
+// If statement rules.
+body
+    :
+    (
+        element_assignment
+        | if_statement
+        | equation
+        | variable_assignment
+    )+
+    ;
+
+
+if_statement
+    :
+    IF
+    BOX_BRACKET_OPEN
+    variable
+    BOX_BRACKET_CLOSE
+    OPEN_BRACE
+    body
+    CLOSE_BRACE
+    else_statement*
+    ;
+
+else_statement
+    :
+    ELSE
+    OPEN_BRACE
+    body
+    CLOSE_BRACE
+    ;

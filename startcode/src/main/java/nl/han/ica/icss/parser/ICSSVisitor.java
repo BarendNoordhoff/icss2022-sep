@@ -40,36 +40,6 @@ public interface ICSSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitOperator(ICSSParser.OperatorContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ICSSParser#variable_assignment}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVariable_assignment(ICSSParser.Variable_assignmentContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ICSSParser#element}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitElement(ICSSParser.ElementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ICSSParser#element_assignment}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitElement_assignment(ICSSParser.Element_assignmentContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ICSSParser#stylerule}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStylerule(ICSSParser.StyleruleContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ICSSParser#body}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBody(ICSSParser.BodyContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link ICSSParser#equation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -103,6 +73,36 @@ public interface ICSSVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAddition(ICSSParser.AdditionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ICSSParser#variable_assignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariable_assignment(ICSSParser.Variable_assignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ICSSParser#element}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElement(ICSSParser.ElementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ICSSParser#element_assignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElement_assignment(ICSSParser.Element_assignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ICSSParser#stylerule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStylerule(ICSSParser.StyleruleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ICSSParser#body}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBody(ICSSParser.BodyContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ICSSParser#if_statement}.
 	 * @param ctx the parse tree

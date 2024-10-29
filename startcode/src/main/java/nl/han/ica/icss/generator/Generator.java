@@ -5,66 +5,21 @@ import nl.han.ica.icss.ast.literals.*;
 import nl.han.ica.icss.ast.selectors.ClassSelector;
 import nl.han.ica.icss.ast.selectors.IdSelector;
 import nl.han.ica.icss.ast.selectors.TagSelector;
-import nl.han.ica.icss.ast.types.ExpressionType;
-
-import java.util.HashMap;
 
 public class Generator {
-
-	HashMap<String, String> variableValues;
-	HashMap<String, ExpressionType> variableType;
-
 	public String generate(AST ast) {
-		variableValues = new HashMap<>();
-		variableType = new HashMap<>();
-
 		String css = "";
 
 //		goes trough the body of the AST tree.
 		for (ASTNode child : ast.root.getChildren()) {
-			if (child instanceof VariableAssignment)
-				saveVariable((VariableAssignment) child);
-			else if (child instanceof Stylerule)
-				css += generateStylerule((Stylerule) child);
+			css += generateStylerule((Stylerule) child);
 		}
 
         return css;
 	}
 
-	void saveVariable(VariableAssignment variableAssignment) {
-		String value = "";
-		Expression expression = variableAssignment.expression;
-		ExpressionType expressionType = ExpressionType.UNDEFINED;
-
-//		checks what kind of literal it is and then stores the expression type and value of the assignment.
-		if (expression instanceof ColorLiteral) {
-			value = ((ColorLiteral) expression).value;
-			expressionType = ExpressionType.COLOR;
-		} else if (expression instanceof PixelLiteral) {
-			value = String.valueOf(((PixelLiteral) expression).value);
-			expressionType = ExpressionType.PIXEL;
-		} else if (expression instanceof PercentageLiteral) {
-			value = String.valueOf(((PercentageLiteral) expression).value);
-			expressionType = ExpressionType.PERCENTAGE;
-		} else if (expression instanceof ScalarLiteral) {
-			value = String.valueOf(((ScalarLiteral) expression).value);
-			expressionType = ExpressionType.SCALAR;
-		} else if (expression instanceof BoolLiteral) {
-			value = String.valueOf(((BoolLiteral) expression).value);
-			expressionType = ExpressionType.BOOL;
-		}
-
-//		get the variable name.
-		String id = variableAssignment.name.name;
-
-//		Store the variable typen and expression.
-		variableValues.put(id, value);
-		variableType.put(id, expressionType);
-	}
-
 	String generateStylerule(Stylerule stylerule) {
 		String sr = "";
-
 
 		for (int i = 0; i < stylerule.selectors.size(); i++) {
 			String tag = "";
@@ -114,28 +69,8 @@ public class Generator {
 			expres = pixVal + "px";
 		} else if (declaration.expression instanceof ScalarLiteral) {
 			expres = String.valueOf(((ScalarLiteral) declaration.expression).value);
-		} else if (declaration.expression instanceof VariableReference) {
-			expres = getValueFromVariable(((VariableReference) declaration.expression).name);
 		}
 
 		return prop + ": " + expres + ";" + System.lineSeparator();
-	}
-
-//	uses the stored expression type of a given variable to see what the suffix should be in the generated CSS.
-//	Using this method pixels can be displayed with 'px' at the end and percentages with '%' at the end.
-	String getValueFromVariable(String key) {
-		String varValue = variableValues.get(key);
-		String varSuffix = "";
-
-		switch (variableType.get(key)) {
-			case PIXEL:
-				varSuffix = "px";
-				break;
-			case PERCENTAGE:
-				varSuffix = "%";
-				break;
-		}
-
-		return varValue + varSuffix;
 	}
 }
