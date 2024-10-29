@@ -15,6 +15,7 @@ public class Evaluator implements Transform {
 
     IHANLinkedList<HashMap<String, Literal>> variableValues;
     VariableManager<String, Literal> variableManager;
+
     OperationsEvaluator operationsEvaluator;
 
     public Evaluator() {
@@ -26,27 +27,42 @@ public class Evaluator implements Transform {
         variableManager = new VariableManager<>();
         variableManager.setVariableTypes(variableValues);
         operationsEvaluator = new OperationsEvaluator(variableManager);
-        transformStylesheet(ast.root);
+        transformTree(ast);
     }
 
+    void transformTree(AST ast) {
+        ArrayList<ASTNode> newBody = new ArrayList<>();
 
-    void transformStylesheet(ASTNode astNode) {
+        transformStylesheet(ast.root, newBody);
+
+        ast.root = new Stylesheet(newBody);
+    }
+
+    void transformStylesheet(ASTNode astNode, ArrayList<ASTNode> newBody) {
         variableManager.add();
 
         for (ASTNode child : astNode.getChildren()) {
-            if (child instanceof Stylerule)
+            if (child instanceof Stylerule) {
                 transformStylerule((Stylerule) child);
-            else if (child instanceof VariableAssignment)
+                newBody.add(child);
+            } else if (child instanceof VariableAssignment) {
                 handleVariableAssignment((VariableAssignment) child);
+            }
         }
+
+        variableManager.delete();
     }
 
     void transformStylerule(Stylerule stylerule) {
         ArrayList<ASTNode> toAdd = new ArrayList<>();
 
+        variableManager.add();
+
         for (ASTNode child : stylerule.body) {
             transformBody(child, toAdd);
         }
+
+        variableManager.delete();
 
         stylerule.body = toAdd;
     }
@@ -83,9 +99,13 @@ public class Evaluator implements Transform {
     }
 
     void transformIfClause(IfClause clause, ArrayList<ASTNode> body) {
+        variableManager.add();
+
         for (ASTNode child : clause.getChildren()) {
             this.transformBody(child, body);
         }
+
+        variableManager.delete();
     }
 
     boolean checkIfConditionIsTrue(Expression expression) {
@@ -125,5 +145,9 @@ public class Evaluator implements Transform {
 
         if (value instanceof Operation)
             declaration.expression = operationsEvaluator.transformOperation((Operation) value);
+        else if (value instanceof VariableReference)
+            declaration.expression = variableManager.get(((VariableReference) value).name);
     }
+
+
 }
